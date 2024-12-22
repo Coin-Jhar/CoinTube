@@ -1,0 +1,24 @@
+{
+  "templates": {
+    "high_quality_video": {
+      "quality": "best",
+      "format": "mp4",
+      "download_subs": false
+    },
+    "audio_only": {
+      "quality": "high",
+      "format": "mp3",
+      "download_subs": false
+    },
+    "low_res_video": {
+      "quality": "low",
+      "format": "mp4",
+      "download_subs": false
+    },
+    "high_res_webm": {
+      "quality": "high",
+      "format": "webm",
+      "download_subs": true
+    }
+  }
+}
