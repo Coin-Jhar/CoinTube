@@ -1,79 +1,70 @@
-# YouTube Downloader
+# CoinTube
 
-A simple Python-based YouTube video downloader that allows you to download videos from YouTube in various formats and qualities. This project uses `yt-dlp`, a popular open-source tool for downloading videos from YouTube and many other websites.
+**CoinTube** is a YouTube downloader created by Coin-Jhar that lets you download videos, audio, and playlists from YouTube with custom settings. It offers features like quality selection, format customization, subtitle downloading, and template support for fast and consistent downloads.
 
 ## Features
-
-- Download videos from YouTube using URLs.
-- Select video format (`mp4`, `webm`, `mp3`).
-- Choose video quality (`best`, `high`, `medium`, `low`).
-- Save the downloaded videos to a specified directory.
-- Error handling for common issues like invalid URLs or network problems.
+- Download videos, playlists, or audio from YouTube.
+- Customizable quality and format (mp4, webm, mp3).
+- Option to download subtitles in SRT format.
+- Save and reuse download settings using templates.
+- Supports both single video and playlist downloads.
 
 ## Installation
 
-### Prerequisites
-
-- Python 3.6 or higher
-- `yt-dlp` library for downloading videos
-
-### Install Dependencies
-
-1. Clone the repository to your local machine:
-
+1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/yourrepositoryname.git
-   cd yourrepositoryname
+   git clone https://github.com/<your-username>/CoinTube.git
 
-2. Install the required dependencies:
+2. Navigate to the project directory:
+
+cd CoinTube
+
+
+3. Install dependencies:
 
 pip install -r requirements.txt
 
-If you don't have a requirements.txt, you can manually install yt-dlp:
-
-pip install yt-dlp
 
 
+Usage
 
-## Usage
-
-1. Run the main.py file:
+1. Run the program:
 
 python main.py
 
 
-2. Follow the prompts in the terminal to input:
+2. The program will prompt you to select a template or enter your custom download settings.
 
-The YouTube video URL
 
-The output directory (default: downloads)
+3. Paste the YouTube URL you want to download and specify the output directory.
 
-Desired video quality (default: best)
 
-Desired format (mp4, webm, or mp3; default: mp4)
+4. The program will download the video/audio in the selected format and quality.
 
 
 
-3. The video will be downloaded and saved to the specified directory.
+Configuration
+
+CoinTube comes with a default configuration file (config.json) containing templates for common download settings. You can modify or add new templates in the config.json file to suit your preferences.
+
+Contributing
+
+1. Fork the repository.
+
+
+2. Create a new branch (git checkout -b feature/your-feature).
+
+
+3. Commit your changes (git commit -am 'Add new feature').
+
+
+4. Push to the branch (git push origin feature/your-feature).
+
+
+5. Create a new pull request.
 
 
 
-### Example
+License
 
-Here's an example of what the process looks like:
-
-Enter the YouTube video URL: https://www.youtube.com/watch?v=example
-Enter the output directory (default: downloads): my_videos
-Enter desired quality (best/high/medium/low, default: best): best
-Enter desired format (mp4/webm/mp3, default: mp4): mp4
-Downloading... 50%
-Downloading... 100%
-Download complete! Check your output directory.
-
-# Contributing
-
-If you'd like to contribute to this project, feel free to fork the repository and create a pull request. Contributions are always welcome!
-
-# License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is open-source and available under the MIT License.
