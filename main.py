@@ -1,22 +1,43 @@
 import json
 import logging
+import os
 
 from downloader import download_video
 from utils import get_user_input
 
 
 def load_config(config_file):
-    """Loads the configuration from the specified JSON file."""
+    """Loads the configuration from the specified JSON file. 
+       Creates a default config file if it doesn't exist.
+    """
+    if not os.path.exists(config_file):
+        print(f"Configuration file not found. Creating a default {config_file}...")
+        default_config = {
+            "templates": {
+                "default": {
+                    "quality": "best",
+                    "format": "mp4",
+                    "download_subs": False
+                }
+            }
+        }
+        try:
+            with open(config_file, 'w') as f:
+                json.dump(default_config, f, indent=4)
+            print(f"Default configuration file created: {config_file}")
+        except Exception as e:
+            print(f"Error creating configuration file: {e}")
+            return None
+
+    # Now load the configuration file
     try:
         with open(config_file, 'r') as f:
             config = json.load(f)
         return config
-    except FileNotFoundError:
-        print(f"Configuration file not found: {config_file}")
-        return None
     except json.JSONDecodeError:
         print(f"Error parsing configuration file: {config_file}")
         return None
+
 
 def select_template(config):
     """Presents the available templates to the user and gets their selection."""
