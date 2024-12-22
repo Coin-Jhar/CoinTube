@@ -4,7 +4,6 @@ import urllib.error
 
 from yt_dlp import YoutubeDL
 
-
 def download_video(url: str, output_dir: str, quality: str, format: str, is_playlist: bool, download_subs: bool, playlist_options: dict):
     """Downloads the YouTube video/playlist with the specified quality and format."""
     if not os.path.exists(output_dir):
@@ -31,7 +30,6 @@ def download_video(url: str, output_dir: str, quality: str, format: str, is_play
     try:
         with YoutubeDL(ydl_opts) as ytdl:
             ytdl.download([url])
-
     except urllib.error.URLError as e:
         logging.error(f"Network error: {e}")
         print(f"Network error: {e}. Please check your internet connection.")
