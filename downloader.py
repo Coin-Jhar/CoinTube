@@ -4,6 +4,7 @@ import urllib.error
 
 from yt_dlp import YoutubeDL
 
+
 def download_video(url: str, output_dir: str, quality: str, format: str, is_playlist: bool, download_subs: bool, playlist_options: dict):
     """Downloads the YouTube video/playlist with the specified quality and format."""
     if not os.path.exists(output_dir):
@@ -30,6 +31,7 @@ def download_video(url: str, output_dir: str, quality: str, format: str, is_play
     try:
         with YoutubeDL(ydl_opts) as ytdl:
             ytdl.download([url])
+
     except urllib.error.URLError as e:
         logging.error(f"Network error: {e}")
         print(f"Network error: {e}. Please check your internet connection.")
@@ -48,23 +50,20 @@ def download_video(url: str, output_dir: str, quality: str, format: str, is_play
 
 def get_format_selector(quality: str, format: str) -> str:
     """Returns the yt-dlp format selector string based on quality and format."""
-    if quality == "best":
-        quality_selector = "bv*+ba/b"
-    elif quality == "high":
-        quality_selector = "bv[height<=720]+ba/b"
-    elif quality == "medium":
-        quality_selector = "bv[height<=480]+ba/b"
-    elif quality == "low":
-        quality_selector = "bv[height<=360]+ba/b"
-    else:
-        quality_selector = "bv*+ba/b"  # Default to best
+    quality_mapping = {
+        "best": "bv*+ba/b",
+        "high": "bv[height<=720]+ba/b",
+        "medium": "bv[height<=480]+ba/b",
+        "low": "bv[height<=360]+ba/b",
+    }
+    quality_selector = quality_mapping.get(quality, "bv*+ba/b")  # Default to best
 
-    if format == "mp3":
-        return "ba"
-    elif format in ("mp4", "webm"):
-        return f"{quality_selector}[ext={format}]"
-    else:
-        return quality_selector  # Default to best
+    format_mapping = {
+        "mp3": "ba",
+        "mp4": f"{quality_selector}[ext=mp4]",
+        "webm": f"{quality_selector}[ext=webm]"
+    }
+    return format_mapping.get(format, quality_selector)  # Default to best
 
 def progress_hook(d):
     """Progress hook for yt-dlp to display detailed download status."""
