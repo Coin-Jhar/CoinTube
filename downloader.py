@@ -50,20 +50,23 @@ def download_video(url: str, output_dir: str, quality: str, format: str, is_play
 
 def get_format_selector(quality: str, format: str) -> str:
     """Returns the yt-dlp format selector string based on quality and format."""
-    quality_mapping = {
-        "best": "bv*+ba/b",
-        "high": "bv[height<=720]+ba/b",
-        "medium": "bv[height<=480]+ba/b",
-        "low": "bv[height<=360]+ba/b",
-    }
-    quality_selector = quality_mapping.get(quality, "bv*+ba/b")  # Default to best
+    if quality == "best":
+        quality_selector = "bv*+ba/b"
+    elif quality == "high":
+        quality_selector = "bv[height<=720]+ba/b"
+    elif quality == "medium":
+        quality_selector = "bv[height<=480]+ba/b"
+    elif quality == "low":
+        quality_selector = "bv[height<=360]+ba/b"
+    else:
+        quality_selector = "bv*+ba/b"  # Default to best
 
-    format_mapping = {
-        "mp3": "ba",
-        "mp4": f"{quality_selector}[ext=mp4]",
-        "webm": f"{quality_selector}[ext=webm]"
-    }
-    return format_mapping.get(format, quality_selector)  # Default to best
+    if format == "mp3":
+        return "ba"
+    elif format in ("mp4", "webm"):
+        return f"{quality_selector}[ext={format}]"
+    else:
+        return quality_selector  # Default to best
 
 def progress_hook(d):
     """Progress hook for yt-dlp to display detailed download status."""
