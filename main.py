@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 
 from downloader import download_video
 from utils import get_user_input
