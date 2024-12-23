@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 from downloader import download_video
 from utils import get_user_input
@@ -60,28 +61,47 @@ def select_template(config):
         print("No templates found in the configuration file.")
         return None
 
+
 if __name__ == "__main__":
-    logging.basicConfig(filename='downloader.log', level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(
+        filename='downloader.log',
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
 
-    config = load_config("config.json")  # Load the configuration
-    template = select_template(config)  # Let the user select a template
+    # Load the configuration file
+    config = load_config("config.json")
+    if config is None:
+        print("Error: Unable to load or create configuration file.")
+        exit(1)
 
-    if template:
-        # Pass use_template=True to skip prompts in get_user_input()
-        video_url, output_directory, _, _, is_playlist, _, playlist_options = get_user_input(use_template=True)  
+    # Allow the user to select a template
+    template = select_template(config)
+    if not template:
+        print("Error: No valid template selected. Exiting...")
+        exit(1)
 
-        try:
-            download_video(
-                video_url,
-                output_directory,
-                template.get("quality", "best"),  # Use template or default values
-                template.get("format", "mp4"),
-                is_playlist,
-                template.get("download_subs", False),
-                playlist_options
-            )
-            print("Download complete! Check your output directory.")
-        except Exception as e:
-            logging.error(f"Failed to download video: {e}")
-            print("An error occurred while downloading the video. Check the logs for details.")
+    # Get user input
+    user_input = get_user_input(use_template=True)
+    if not user_input:
+        print("Error: Failed to get user input. Exiting...")
+        exit(1)
+
+    # Unpack user input
+    video_url, output_directory, _, _, is_playlist, _, playlist_options = user_input
+
+    try:
+        # Use template values for download parameters
+        download_video(
+            video_url,
+            output_directory,
+            template.get("quality", "best"),
+            template.get("format", "mp4"),
+            is_playlist,
+            template.get("download_subs", False),
+            playlist_options
+        )
+        print("Download complete! Check your output directory.")
+    except Exception as e:
+        logging.error(f"Failed to download video: {e}")
+        print("An error occurred while downloading the video. Check the logs for details.")
